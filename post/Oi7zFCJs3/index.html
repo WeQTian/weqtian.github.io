@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>【Docker】Docker Compose部署MySQL | 晴天的Vlog</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://weqtian.github.io/favicon.ico?v=1686163755255">
+<link rel="stylesheet" href="https://weqtian.github.io/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="Docker Compose部署MySQL
+这里我们安装的MySQL是5.7.30版本的当然你也可以安装其他版本的只需要改下Docker镜像的MySQL版本即可
+需要创建所需要的目录
+mkdir mysql
+
+cd  mysql
+
+touc..." />
+    <meta name="keywords" content="Docker" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://weqtian.github.io">
+        <img src="https://weqtian.github.io/images/avatar.png?v=1686163755255" class="site-logo">
+        <h1 class="site-title">晴天的Vlog</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      温故而知新
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://weqtian.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">【Docker】Docker Compose部署MySQL</h2>
+            <div class="post-date">2023-06-08</div>
+            
+            <div class="post-content" v-pre>
+              <h1 id="docker-compose部署mysql">Docker Compose部署MySQL</h1>
+<p>这里我们安装的MySQL是5.7.30版本的当然你也可以安装其他版本的只需要改下Docker镜像的MySQL版本即可</p>
+<p>需要创建所需要的目录</p>
+<pre><code class="language-bash">mkdir mysql
+
+cd  mysql
+
+touch docker-compose.yaml
+
+mkdir data
+</code></pre>
+<h3 id="配置文件">配置文件</h3>
+<p><strong>docker-compose.yaml配置文件</strong></p>
+<pre><code class="language-yml">version: '3.3'
+services:
+ mysql:
+  hostname: mysql
+  # 启动容器名称mysql
+  container_name: mysql-pord
+  # 使用mysql 5.7.20的镜像
+  image: mysql:5.7.30
+  # 自启动
+  restart: always
+  command:
+    - --default-time_zone=+8:00 # mysql时间加8个小时
+    - --character-set-server=utf8mb4 # mysql默认使用utf8mb4编码
+    - --collation-server=utf8mb4_general_ci
+    - --explicit_defaults_for_timestamp= true
+    - --lower_case_table_names=1
+    - --max_allowed_packet=128M
+  environment:
+   # 服务器时区使用上海 
+   TZ: Asis/Shanghai
+   # mysql初始化密码
+   MYSQL_ROOT_PASSWORD: 1111
+  ports:
+   # 容器3306端口映射到宿主机3306端口
+   - &quot;3306:3306&quot;
+  volumes:
+   # mysql相关数据存储在宿主机/data/docker/mysql文件夹
+   - &quot;./data/:/var/lib/mysql&quot;
+</code></pre>
+<h3 id="启动mysql">启动MySQL</h3>
+<pre><code class="language-bash">docker-compose up -d  # 启动
+docker-compose stop  # 停止
+docker-compose start # 启动
+docker-compose restart # 重启
+docker-compose down # 停止容器并移除
+</code></pre>
+<h3 id="远程登录mysql">远程登录MySQL</h3>
+<p>下载SQLyog客户端或者其他MySQL客户端即可，这里使用SQLyog连接</p>
+<p>使用服务器IP+3306端口及账号跟密码</p>
+<figure data-type="image" tabindex="1"><img src="https://img-blog.csdnimg.cn/20210206100400577.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzcxMjAyMw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" loading="lazy"></figure>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://weqtian.github.io/tag/EQfQOlcK5/" class="tag">
+                    Docker
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://weqtian.github.io/post/REW2NmJRP/">
+                  <h3 class="post-title">
+                    【Ubuntu】Ubuntu编译安装Python3.10.1
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+
+  </body>
+</html>

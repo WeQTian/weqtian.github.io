@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>【Ubuntu】Ubuntu编译安装Nginx | 晴天的Vlog</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://weqtian.github.io/favicon.ico?v=1686163755255">
+<link rel="stylesheet" href="https://weqtian.github.io/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="安装依赖
+依次安装以下依赖：
+sudo apt-get update
+sudo apt-get install build-essential
+sudo apt-get install libtool
+sudo apt-get instal..." />
+    <meta name="keywords" content="Ubuntu" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://weqtian.github.io">
+        <img src="https://weqtian.github.io/images/avatar.png?v=1686163755255" class="site-logo">
+        <h1 class="site-title">晴天的Vlog</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      温故而知新
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://weqtian.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">【Ubuntu】Ubuntu编译安装Nginx</h2>
+            <div class="post-date">2023-06-08</div>
+            
+            <div class="post-content" v-pre>
+              <h1 id="安装依赖">安装依赖</h1>
+<p><strong>依次安装以下依赖：</strong></p>
+<pre><code class="language-bash">sudo apt-get update
+sudo apt-get install build-essential
+sudo apt-get install libtool
+sudo apt-get install libpcre3 libpcre3-dev
+sudo apt-get install zlib1g-dev
+sudo apt-get install libssl-dev
+</code></pre>
+<h1 id="下载nginx压缩包">下载Nginx压缩包</h1>
+<p><strong>执行如下命令下载最新的Nginx压缩包：</strong></p>
+<pre><code class="language-bash">wget http://nginx.org/download/nginx-1.21.6.tar.gz
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://img-blog.csdnimg.cn/140dda9e9a4d46e3889e9d62e8c35aa0.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5pm05aSp44GuVmxvZw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="Nginx下载" loading="lazy"></figure>
+<p><strong>执行如下命令解压Nginx压缩包：</strong></p>
+<pre><code class="language-bash">tar -xvf nginx-1.21.6.tar.gz
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/acc8e97c1c8c47e3ae43139edee841a2.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5pm05aSp44GuVmxvZw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述" loading="lazy"><br>
+<img src="https://img-blog.csdnimg.cn/28c7ce58884d43c7a7b883b45ecebc94.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5pm05aSp44GuVmxvZw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述" loading="lazy"></p>
+<h1 id="编译安装nginx">编译安装Nginx</h1>
+<p><strong>进入到Nginx源码目录：</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/2e1e7cc60e91400381fadb4f93bae298.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5pm05aSp44GuVmxvZw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述" loading="lazy"><br>
+<img src="https://img-blog.csdnimg.cn/4a8e5e1a53c740b28ad2134bff604c46.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5pm05aSp44GuVmxvZw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述" loading="lazy"><br>
+<strong>执行编译命令前先创建Nginx用户不然后面Nginx运行时会报错</strong></p>
+<pre><code class="language-bash">useradd nginx
+</code></pre>
+<p><strong>执行命令编译安装：</strong></p>
+<pre><code class="language-bash">./configure --prefix=/usr/local/nginx \
+--user=nginx --group=nginx \
+--with-http_gzip_static_module \
+--with-http_flv_module \
+--with-http_ssl_module \
+--with-http_realip_module \
+--with-http_v2_module \
+--with-http_sub_module \
+--with-http_mp4_module \
+--with-http_stub_status_module \
+--with-http_gzip_static_module \
+--with-pcre --with-stream \
+--with-stream_ssl_module \
+--with-stream_realip_module
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/91189c2ea93c495494a4b2a3bf6dfae9.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5pm05aSp44GuVmxvZw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述" loading="lazy"><br>
+<img src="https://img-blog.csdnimg.cn/b5bc42a1d6504240bdce82fe72a89881.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5pm05aSp44GuVmxvZw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述" loading="lazy"></p>
+<p><strong>执行完上面的命令后再执行如下命令：</strong></p>
+<pre><code class="language-bash">make &amp;&amp; make install
+</code></pre>
+<figure data-type="image" tabindex="2"><img src="https://img-blog.csdnimg.cn/d5fe1312eb6c47b4b25f17ddbcc71fde.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5pm05aSp44GuVmxvZw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述" loading="lazy"></figure>
+<p>完成make&amp;&amp;make install之后就完成安装了去到<code>usr/local/nginx</code>就是Nginx的安装路径</p>
+<figure data-type="image" tabindex="3"><img src="https://img-blog.csdnimg.cn/8813032850d0411bb876ea1033a3feb8.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5pm05aSp44GuVmxvZw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述" loading="lazy"></figure>
+<figure data-type="image" tabindex="4"><img src="https://img-blog.csdnimg.cn/6a8b537eebf2416aa0003065a73d41b3.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5pm05aSp44GuVmxvZw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述" loading="lazy"></figure>
+<h1 id="给nginx配置软连接">给Nginx配置软连接</h1>
+<p><strong>执行如下命令即可</strong></p>
+<pre><code class="language-bash">ln -s /usr/local/nginx/sbin/nginx /usr/bin/
+</code></pre>
+<figure data-type="image" tabindex="5"><img src="https://img-blog.csdnimg.cn/31cda8674c464ad78bab6217dda62972.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5pm05aSp44GuVmxvZw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述" loading="lazy"></figure>
+<p>完成软连接之后我们就可以直接在终端执行Nginx命令了如下：<br>
+<img src="https://img-blog.csdnimg.cn/6bf79c2efc5844e283d2025d02669fbc.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5pm05aSp44GuVmxvZw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述" loading="lazy"><br>
+<img src="https://img-blog.csdnimg.cn/64eb2db835f34eb099ace524c09f4179.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5pm05aSp44GuVmxvZw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述" loading="lazy"><br>
+都能正常执行不报错到此编译安装Nginx结束。</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://weqtian.github.io/tag/6edvj1Cv3/" class="tag">
+                    Ubuntu
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://weqtian.github.io/post/A4y-CWWax/">
+                  <h3 class="post-title">
+                    【Docker】Ubuntu服务器安装Docker以及Docker Compose
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+
+  </body>
+</html>

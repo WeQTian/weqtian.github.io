@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>【Docker】Docker Compose部署Redis | 晴天的Vlog</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://weqtian.github.io/favicon.ico?v=1686163755255">
+<link rel="stylesheet" href="https://weqtian.github.io/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="Docker Compose部署Redis
+登录服务器并创建redis目录及redis配置文件
+mkdir redis
+
+cd redis
+
+touch docker-compose.yaml
+
+touch redis.conf
+
+配置文件..." />
+    <meta name="keywords" content="Docker" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://weqtian.github.io">
+        <img src="https://weqtian.github.io/images/avatar.png?v=1686163755255" class="site-logo">
+        <h1 class="site-title">晴天的Vlog</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      温故而知新
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://weqtian.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">【Docker】Docker Compose部署Redis</h2>
+            <div class="post-date">2018-12-12</div>
+            
+            <div class="post-content" v-pre>
+              <h1 id="docker-compose部署redis">Docker Compose部署Redis</h1>
+<p><strong>登录服务器并创建redis目录及redis配置文件</strong></p>
+<pre><code class="language-bash">mkdir redis
+
+cd redis
+
+touch docker-compose.yaml
+
+touch redis.conf
+</code></pre>
+<h3 id="配置文件">配置文件</h3>
+<p><strong>docker-compose.yml配置文件</strong></p>
+<pre><code class="language-yml">version: &quot;3.3&quot;
+services:
+    redis:
+        image: &quot;redis:latest&quot;
+        container_name: redis-pord
+        restart: always
+        ports:
+          - &quot;6379:6379&quot;
+        volumes:
+          - ./redis.conf:/etc/redis/redis.conf:rw
+          - ./data:/data:rw
+        command:
+          # 执行的命令
+          redis-server /etc/redis/redis.conf --appendonly yes
+</code></pre>
+<p><strong>redis.conf配置文件</strong></p>
+<pre><code class="language-redis">requirepass 123456
+appendonly yes
+</code></pre>
+<h3 id="启动redis">启动Redis</h3>
+<pre><code class="language-bash">docker-compose up -d  # 启动
+docker-compose stop  # 停止
+docker-compose start # 启动
+docker-compose restart # 重启
+docker-compose down # 停止容器并移除
+</code></pre>
+<h3 id="测试连接redis">测试连接Redis</h3>
+<p>使用服务器IP加6379及Redis密码即可访问Redis了<br>
+<img src="https://img-blog.csdnimg.cn/img_convert/59f573bb4654f242131d1dd2ec90008f.png" alt="image.png" loading="lazy">[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-HUQ0baxY-1612577261497)(/uploads/docker/images/m_c168ebd1cb1fe02b1ebf03e4ea2a71fa_r.png)]</p>
+<p>Redis Windows版客户端下载地址：</p>
+<p>https://github.com/qishibo/AnotherRedisDesktopManager/releases</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://weqtian.github.io/tag/EQfQOlcK5/" class="tag">
+                    Docker
+                  </a>
+                
+              </div>
+            
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+
+  </body>
+</html>

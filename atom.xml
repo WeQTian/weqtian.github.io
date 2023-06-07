@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://weqtian.github.io</id>
+    <title>晴天的Vlog</title>
+    <updated>2023-06-07T18:49:18.373Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://weqtian.github.io"/>
+    <link rel="self" href="https://weqtian.github.io/atom.xml"/>
+    <subtitle>温故而知新</subtitle>
+    <logo>https://weqtian.github.io/images/avatar.png</logo>
+    <icon>https://weqtian.github.io/favicon.ico</icon>
+    <rights>All rights reserved 2023, 晴天的Vlog</rights>
+    <entry>
+        <title type="html"><![CDATA[【Docker】Docker Compose部署MySQL]]></title>
+        <id>https://weqtian.github.io/post/Oi7zFCJs3/</id>
+        <link href="https://weqtian.github.io/post/Oi7zFCJs3/">
+        </link>
+        <updated>2023-06-07T18:46:08.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="docker-compose部署mysql">Docker Compose部署MySQL</h1>
+<p>这里我们安装的MySQL是5.7.30版本的当然你也可以安装其他版本的只需要改下Docker镜像的MySQL版本即可</p>
+<p>需要创建所需要的目录</p>
+<pre><code class="language-bash">mkdir mysql
+
+cd  mysql
+
+touch docker-compose.yaml
+
+mkdir data
+</code></pre>
+<h3 id="配置文件">配置文件</h3>
+<p><strong>docker-compose.yaml配置文件</strong></p>
+<pre><code class="language-yml">version: '3.3'
+services:
+ mysql:
+  hostname: mysql
+  # 启动容器名称mysql
+  container_name: mysql-pord
+  # 使用mysql 5.7.20的镜像
+  image: mysql:5.7.30
+  # 自启动
+  restart: always
+  command:
+    - --default-time_zone=+8:00 # mysql时间加8个小时
+    - --character-set-server=utf8mb4 # mysql默认使用utf8mb4编码
+    - --collation-server=utf8mb4_general_ci
+    - --explicit_defaults_for_timestamp= true
+    - --lower_case_table_names=1
+    - --max_allowed_packet=128M
+  environment:
+   # 服务器时区使用上海 
+   TZ: Asis/Shanghai
+   # mysql初始化密码
+   MYSQL_ROOT_PASSWORD: 1111
+  ports:
+   # 容器3306端口映射到宿主机3306端口
+   - &quot;3306:3306&quot;
+  volumes:
+   # mysql相关数据存储在宿主机/data/docker/mysql文件夹
+   - &quot;./data/:/var/lib/mysql&quot;
+</code></pre>
+<h3 id="启动mysql">启动MySQL</h3>
+<pre><code class="language-bash">docker-compose up -d  # 启动
+docker-compose stop  # 停止
+docker-compose start # 启动
+docker-compose restart # 重启
+docker-compose down # 停止容器并移除
+</code></pre>
+<h3 id="远程登录mysql">远程登录MySQL</h3>
+<p>下载SQLyog客户端或者其他MySQL客户端即可，这里使用SQLyog连接</p>
+<p>使用服务器IP+3306端口及账号跟密码</p>
+<figure data-type="image" tabindex="1"><img src="https://img-blog.csdnimg.cn/20210206100400577.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzcxMjAyMw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" loading="lazy"></figure>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[【Ubuntu】Ubuntu编译安装Python3.10.1]]></title>
+        <id>https://weqtian.github.io/post/REW2NmJRP/</id>
+        <link href="https://weqtian.github.io/post/REW2NmJRP/">
+        </link>
+        <updated>2023-06-07T18:44:02.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="准备工作">准备工作</h1>
+<ul>
+<li>虚拟机或云服务器</li>
+<li>下载Python3.10.1压缩包</li>
+<li>远程连接服务器工具</li>
+</ul>
+<h1 id="下载依赖">下载依赖</h1>
+<ul>
+<li>更新下软件源</li>
+</ul>
+<pre><code class="language-bash">apt-get update
+</code></pre>
+<ul>
+<li>下载支持Python3的依赖</li>
+</ul>
+<pre><code class="language-bash">apt-get install libqgispython3.10.4
+</code></pre>
+<h1 id="下载python3101压缩包">下载Python3.10.1压缩包</h1>
+<pre><code class="language-bash">wget https://www.python.org/ftp/python/3.10.1/Python-3.10.1.tgz
+</code></pre>
+<h1 id="安装python3101">安装Python3.10.1</h1>
+<pre><code class="language-bash">./configure --prefix=/usr/local/python3.10.1 --enable-optimizations
+</code></pre>
+<pre><code class="language-bash">make &amp;&amp; make install 
+</code></pre>
+<h1 id="配置软连接">配置软连接</h1>
+<pre><code class="language-bash">ln -s /usr/local/python3.10.1/bin/python3.10 /usr/bin/python
+</code></pre>
+<pre><code class="language-bash">ln -s /usr/local/python3.10.1/bin/pip3.10 /usr/bin/pip
+</code></pre>
+<p>检查Python是否正常安装<br>
+<img src="https://img-blog.csdnimg.cn/2f8414a9aaf1478cbe0ead5946984185.png" alt="在这里插入图片描述" loading="lazy"><br>
+到此我们已经安装完Python了</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[【Ubuntu】Ubuntu编译安装Nginx]]></title>
+        <id>https://weqtian.github.io/post/X8YPCfsdL/</id>
+        <link href="https://weqtian.github.io/post/X8YPCfsdL/">
+        </link>
+        <updated>2023-06-07T18:43:19.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="安装依赖">安装依赖</h1>
+<p><strong>依次安装以下依赖：</strong></p>
+<pre><code class="language-bash">sudo apt-get update
+sudo apt-get install build-essential
+sudo apt-get install libtool
+sudo apt-get install libpcre3 libpcre3-dev
+sudo apt-get install zlib1g-dev
+sudo apt-get install libssl-dev
+</code></pre>
+<h1 id="下载nginx压缩包">下载Nginx压缩包</h1>
+<p><strong>执行如下命令下载最新的Nginx压缩包：</strong></p>
+<pre><code class="language-bash">wget http://nginx.org/download/nginx-1.21.6.tar.gz
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://img-blog.csdnimg.cn/140dda9e9a4d46e3889e9d62e8c35aa0.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5pm05aSp44GuVmxvZw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="Nginx下载" loading="lazy"></figure>
+<p><strong>执行如下命令解压Nginx压缩包：</strong></p>
+<pre><code class="language-bash">tar -xvf nginx-1.21.6.tar.gz
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/acc8e97c1c8c47e3ae43139edee841a2.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5pm05aSp44GuVmxvZw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述" loading="lazy"><br>
+<img src="https://img-blog.csdnimg.cn/28c7ce58884d43c7a7b883b45ecebc94.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5pm05aSp44GuVmxvZw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述" loading="lazy"></p>
+<h1 id="编译安装nginx">编译安装Nginx</h1>
+<p><strong>进入到Nginx源码目录：</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/2e1e7cc60e91400381fadb4f93bae298.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5pm05aSp44GuVmxvZw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述" loading="lazy"><br>
+<img src="https://img-blog.csdnimg.cn/4a8e5e1a53c740b28ad2134bff604c46.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5pm05aSp44GuVmxvZw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述" loading="lazy"><br>
+<strong>执行编译命令前先创建Nginx用户不然后面Nginx运行时会报错</strong></p>
+<pre><code class="language-bash">useradd nginx
+</code></pre>
+<p><strong>执行命令编译安装：</strong></p>
+<pre><code class="language-bash">./configure --prefix=/usr/local/nginx \
+--user=nginx --group=nginx \
+--with-http_gzip_static_module \
+--with-http_flv_module \
+--with-http_ssl_module \
+--with-http_realip_module \
+--with-http_v2_module \
+--with-http_sub_module \
+--with-http_mp4_module \
+--with-http_stub_status_module \
+--with-http_gzip_static_module \
+--with-pcre --with-stream \
+--with-stream_ssl_module \
+--with-stream_realip_module
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/91189c2ea93c495494a4b2a3bf6dfae9.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5pm05aSp44GuVmxvZw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述" loading="lazy"><br>
+<img src="https://img-blog.csdnimg.cn/b5bc42a1d6504240bdce82fe72a89881.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5pm05aSp44GuVmxvZw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述" loading="lazy"></p>
+<p><strong>执行完上面的命令后再执行如下命令：</strong></p>
+<pre><code class="language-bash">make &amp;&amp; make install
+</code></pre>
+<figure data-type="image" tabindex="2"><img src="https://img-blog.csdnimg.cn/d5fe1312eb6c47b4b25f17ddbcc71fde.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5pm05aSp44GuVmxvZw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述" loading="lazy"></figure>
+<p>完成make&amp;&amp;make install之后就完成安装了去到<code>usr/local/nginx</code>就是Nginx的安装路径</p>
+<figure data-type="image" tabindex="3"><img src="https://img-blog.csdnimg.cn/8813032850d0411bb876ea1033a3feb8.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5pm05aSp44GuVmxvZw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述" loading="lazy"></figure>
+<figure data-type="image" tabindex="4"><img src="https://img-blog.csdnimg.cn/6a8b537eebf2416aa0003065a73d41b3.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5pm05aSp44GuVmxvZw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述" loading="lazy"></figure>
+<h1 id="给nginx配置软连接">给Nginx配置软连接</h1>
+<p><strong>执行如下命令即可</strong></p>
+<pre><code class="language-bash">ln -s /usr/local/nginx/sbin/nginx /usr/bin/
+</code></pre>
+<figure data-type="image" tabindex="5"><img src="https://img-blog.csdnimg.cn/31cda8674c464ad78bab6217dda62972.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5pm05aSp44GuVmxvZw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述" loading="lazy"></figure>
+<p>完成软连接之后我们就可以直接在终端执行Nginx命令了如下：<br>
+<img src="https://img-blog.csdnimg.cn/6bf79c2efc5844e283d2025d02669fbc.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5pm05aSp44GuVmxvZw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述" loading="lazy"><br>
+<img src="https://img-blog.csdnimg.cn/64eb2db835f34eb099ace524c09f4179.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5pm05aSp44GuVmxvZw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述" loading="lazy"><br>
+都能正常执行不报错到此编译安装Nginx结束。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[【Docker】Ubuntu服务器安装Docker以及Docker Compose]]></title>
+        <id>https://weqtian.github.io/post/A4y-CWWax/</id>
+        <link href="https://weqtian.github.io/post/A4y-CWWax/">
+        </link>
+        <updated>2023-06-07T18:35:17.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="安装docker">安装Docker</h1>
+<p>Docker Engine-Community 支持以下的 Ubuntu 版本：</p>
+<ul>
+<li>Xenial 16.04 (LTS)</li>
+<li>Bionic 18.04 (LTS)</li>
+<li>Cosmic 18.10</li>
+<li>Disco 19.04</li>
+<li>其他更新的版本……</li>
+</ul>
+<p>Docker Engine - Community 支持上 x86_64（或 amd64）armhf，arm64，s390x （IBM Z），和 ppc64le（IBM的Power）架构。</p>
+<h2 id="使用官方安装脚本自动安装">使用官方安装脚本自动安装</h2>
+<p><strong>安装命令如下：</strong></p>
+<pre><code class="language-bash">curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
+</code></pre>
+<p><strong>也可以使用国内 daocloud 一键安装命令：</strong></p>
+<pre><code class="language-bash">curl -sSL https://get.daocloud.io/docker | sh
+</code></pre>
+<h2 id="手动安装">手动安装</h2>
+<p><strong>卸载旧版本</strong><br>
+Docker 的旧版本被称为 docker，docker.io 或 docker-engine 。如果已安装，请卸载它们：</p>
+<pre><code class="language-bash">$ sudo apt-get remove docker docker-engine docker.io containerd runc
+</code></pre>
+<p>当前称为 Docker Engine-Community 软件包 docker-ce 。</p>
+<p>安装 Docker Engine-Community，以下介绍两种方式。</p>
+<p><strong>使用 Docker 仓库进行安装</strong></p>
+<p>在新主机上首次安装 Docker Engine-Community 之前，需要设置 Docker 仓库。之后，您可以从仓库安装和更新 Docker 。</p>
+<p><strong>设置仓库</strong></p>
+<p>更新 apt 包索引。</p>
+<pre><code class="language-bash">$ sudo apt-get update
+</code></pre>
+<p>安装 apt 依赖包，用于通过HTTPS来获取仓库:</p>
+<pre><code class="language-bash">$ sudo apt-get install \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg-agent \
+    software-properties-common
+    ```
+
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[【Docker】Docker Compose部署Redis]]></title>
+        <id>https://weqtian.github.io/post/wTuIEfbG1/</id>
+        <link href="https://weqtian.github.io/post/wTuIEfbG1/">
+        </link>
+        <updated>2018-12-11T16:00:00.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="docker-compose部署redis">Docker Compose部署Redis</h1>
+<p><strong>登录服务器并创建redis目录及redis配置文件</strong></p>
+<pre><code class="language-bash">mkdir redis
+
+cd redis
+
+touch docker-compose.yaml
+
+touch redis.conf
+</code></pre>
+<h3 id="配置文件">配置文件</h3>
+<p><strong>docker-compose.yml配置文件</strong></p>
+<pre><code class="language-yml">version: &quot;3.3&quot;
+services:
+    redis:
+        image: &quot;redis:latest&quot;
+        container_name: redis-pord
+        restart: always
+        ports:
+          - &quot;6379:6379&quot;
+        volumes:
+          - ./redis.conf:/etc/redis/redis.conf:rw
+          - ./data:/data:rw
+        command:
+          # 执行的命令
+          redis-server /etc/redis/redis.conf --appendonly yes
+</code></pre>
+<p><strong>redis.conf配置文件</strong></p>
+<pre><code class="language-redis">requirepass 123456
+appendonly yes
+</code></pre>
+<h3 id="启动redis">启动Redis</h3>
+<pre><code class="language-bash">docker-compose up -d  # 启动
+docker-compose stop  # 停止
+docker-compose start # 启动
+docker-compose restart # 重启
+docker-compose down # 停止容器并移除
+</code></pre>
+<h3 id="测试连接redis">测试连接Redis</h3>
+<p>使用服务器IP加6379及Redis密码即可访问Redis了<br>
+<img src="https://img-blog.csdnimg.cn/img_convert/59f573bb4654f242131d1dd2ec90008f.png" alt="image.png" loading="lazy">[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-HUQ0baxY-1612577261497)(/uploads/docker/images/m_c168ebd1cb1fe02b1ebf03e4ea2a71fa_r.png)]</p>
+<p>Redis Windows版客户端下载地址：</p>
+<p>https://github.com/qishibo/AnotherRedisDesktopManager/releases</p>
+]]></content>
+    </entry>
+</feed>
